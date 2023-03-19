@@ -1,19 +1,33 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [todoItems, setTodoItems] = useState<any[]>([]);
+  const [newTodo, setNewTodo] = useState<string>("");
+
+  const handleAddTodo = () => {
+    if (newTodo.trim() !== "") {
+      setTodoItems([...todoItems, newTodo.trim()]);
+      setNewTodo("");
+    }
+  };
+
+  const handleNewTodoChange = (event: any) => {
+    setNewTodo(event.target.value);
+  };
 
   return (
     <div className="App">
-      <h1>React State Management</h1>
-      <p>
-        Hello, this is a project which have its own react state managment instead of using redux zustand or anyother
-        third package library.
-      </p>
-      <p>So, stick around and enjoy this project</p>
+      <h1>My Todo List</h1>
+      <div className="input-container">
+        <input type="text" placeholder="Enter a new todo item" value={newTodo} onChange={handleNewTodoChange} />
+        <button onClick={handleAddTodo}>Add</button>
+      </div>
+      <ul>
+        {todoItems.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
